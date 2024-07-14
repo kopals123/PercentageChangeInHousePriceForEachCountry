@@ -1,0 +1,70 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<form method="post">
+    @foreach (var country in Model.Countries)
+    {
+        var uniqueId = $"Country_{country.Replace(" ", "_")}";
+
+        <div>
+            <label for="@uniqueId">@country</label>
+            <input type="number" step="0.01" id="@uniqueId" name="CountryChanges[@country]" />
+        </div>
+    }
+    <button type="submit">Submit</button>
+</form>
+
+@if (Model.RunRecords != null && Model.RunRecords.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Percentage Change</th>
+                <th>Total Outstanding Loan Amount</th>
+                <th>Total Collateral Value</th>
+                <th>Scenario Collateral Value</th>
+                <th>Expected Loss</th>
+                <th>Run Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.RunRecords)
+            {
+                <tr>
+                    <td>@record.Country</td>
+                    <td>@record.PercentageChange</td>
+                    <td>@record.TotalOutstandingLoanAmount</td>
+                    <td>@record.TotalCollateralValue</td>
+                    <td>@record.ScenarioCollateralValue</td>
+                    <td>@record.ExpectedLoss</td>
+                    <td>@record.RunDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
